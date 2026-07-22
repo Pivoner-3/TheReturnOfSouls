@@ -42,6 +42,9 @@ public class MainMenu : MonoBehaviour
     public void OnStartGame()
     {
         Debug.Log("ÍÎÂÀß ÈÃĞÀ");
+        PlayerPrefs.SetInt("SaveExists", 1);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("ChoosingScene");
     }
 
     public void OnContinueGame()
