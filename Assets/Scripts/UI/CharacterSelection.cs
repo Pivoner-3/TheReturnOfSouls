@@ -29,10 +29,10 @@ public class CharacterSelection : MonoBehaviour
         "Бывший лучник армии Дачлэнда. Спокойный, молчаливый, слегка заносчивый."
     };
     private string[] heroStats = {
-        "Сила: 8  Ловкость: 6  Интеллект: 4  Выносливость: 7",
-        "Сила: 5  Ловкость: 9  Интеллект: 3  Выносливость: 6",
-        "Сила: 4  Ловкость: 5  Интеллект: 9  Выносливость: 5",
-        "Сила: 6  Ловкость: 8  Интеллект: 4  Выносливость: 6"
+        "Сила: 8 | Ловкость: 6 | Интеллект: 4 | Выносливость: 7",
+        "Сила: 5 | Ловкость: 9 | Интеллект: 3 | Выносливость: 6",
+        "Сила: 4 | Ловкость: 5 | Интеллект: 9 | Выносливость: 5",
+        "Сила: 6 | Ловкость: 8 | Интеллект: 4 | Выносливость: 6"
     };
 
     private void Start()
@@ -51,34 +51,20 @@ public class CharacterSelection : MonoBehaviour
     public void SelectHero(int index)
     {
         selectedHeroIndex = index;
-
         heroNameText.text = heroNames[index];
         heroDescriptionText.text = heroDescriptions[index];
         heroStatsText.text = heroStats[index];
     }
 
-    private Button GetButtonByIndex(int index)
-    {
-        switch (index)
-        {
-            case 0: return swaronButton;
-            case 1: return gaerButton;
-            case 2: return kreinButton;
-            case 3: return ivanisButton;
-            default: return swaronButton;
-        }
-    }
-
     public void OnSelectHero()
     {
-        PlayerPrefs.SetInt("SelectedHero", selectedHeroIndex);
-        PlayerPrefs.Save();
-        Debug.Log($"Выбран герой: {heroNames[selectedHeroIndex]}");
+        // СОХРАНЯЕМ ВЫБОР через SaveManager
+        SaveManager.SaveSelectedHero(selectedHeroIndex);
         SceneManager.LoadScene("HallwayScene");
     }
 
     public void OnBack()
     {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("MainMenu");
     }
 }
