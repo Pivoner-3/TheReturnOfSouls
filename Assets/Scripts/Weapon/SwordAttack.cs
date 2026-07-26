@@ -6,19 +6,22 @@ public class SwordAttack : MonoBehaviour
 
     public void EnableHitbox()
     {
-        hitbox.SetActive(true);
+        if (hitbox != null)
+            hitbox.SetActive(true);
     }
 
     public void DisableHitbox()
     {
-        hitbox.SetActive(false);
+        if (hitbox != null)
+            hitbox.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out IDamageable target))
         {
-            target.TakeDamage(1);
+            target.TakeDamage(1); // Наносим урон
+            Debug.Log("Попал по врагу!");
         }
     }
 }

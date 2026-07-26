@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a2a1f7274b27d419070af28662d760, type: 3}
+  m_Name: HeroData_Svaron
+  m_EditorClassIdentifier: Assembly-CSharp::HeroData
+  heroName: "\u0421\u0432\u0430\u0440\u043E\u043D"
+  prefab: {fileID: 6178361290776918484, guid: 7ecf7130de564fa4ead8140fa2825187, type: 3}
+  stats:
+    maxHealth: 22
+    speed: 4
+    attackPower: 9
+    attackCooldown: 0.5
+  portrait: {fileID: 4846738643317192617, guid: a188c0bda20558242ad0650f5b79ff83,
+    type: 3}

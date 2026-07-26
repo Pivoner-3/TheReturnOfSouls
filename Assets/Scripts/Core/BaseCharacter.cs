@@ -17,12 +17,19 @@ public abstract class BaseCharacter : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int amount)
     {
+        if (TryGetComponent(out PlayerController player) && player.isBlocking)
+        {
+            Debug.Log("Урон заблокирован!");
+            return;
+        }
+
         CurrentHealth -= amount;
         if (CurrentHealth <= 0) Die();
     }
 
     protected virtual void Die()
     {
-        Destroy(gameObject);
+        animator.SetTrigger("die");
+        Debug.Log("смерть");
     }
 }

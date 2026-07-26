@@ -2,9 +2,20 @@ using UnityEngine;
 
 public class PlayerController : BaseCharacter
 {
-    public float moveSpeed = 5f;
-    public Transform attackPoint;
     private SpriteRenderer spriteRenderer;
+    public bool isBlocking = false;
+
+    public void EnableBlock()
+    {
+        isBlocking = true;
+        Debug.Log("Áëîê ÂÊËŞ×¨Í");
+    }
+
+    public void DisableBlock()
+    {
+        isBlocking = false;
+        Debug.Log("Áëîê ÂÛÊËŞ×¨Í");
+    }
 
     protected override void Awake()
     {
@@ -29,15 +40,10 @@ public class PlayerController : BaseCharacter
         // Àòàêà
         if (Input.GetButtonDown("Fire1"))
             animator.SetTrigger("attack");
-    }
-
-    public void DealDamage()
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, 1f);
-        foreach (var hit in hits)
+        // Áëîê
+        if (Input.GetButtonDown("Fire2"))
         {
-            if (hit.TryGetComponent(out IDamageable target))
-                target.TakeDamage(stats.attackPower);
+            animator.SetTrigger("block");
         }
     }
 }
