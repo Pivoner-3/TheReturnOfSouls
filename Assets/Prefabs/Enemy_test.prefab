@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8294909615621738235}
   m_Layer: 0
   m_Name: Enemy_test
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,6 +184,9 @@ MonoBehaviour:
     speed: 5
     attackPower: 1
     attackCooldown: 0.5
+  isDead: 0
   detectionRange: 3
   attackRange: 1.5
-  attackCooldown: 1
+  patrolSpeed: 1
+  chaseSpeed: 3
+  patrolDistance: 3

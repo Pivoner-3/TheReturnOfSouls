@@ -20,7 +20,7 @@ public class SwordAttack : MonoBehaviour
     {
         if (other.TryGetComponent(out IDamageable target))
         {
-            target.TakeDamage(1); // Наносим урон
+            target.TakeDamage(1);
             Debug.Log("Попал по врагу!");
         }
     }

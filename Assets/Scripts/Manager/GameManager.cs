@@ -18,24 +18,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadScene(string sceneName)
-    {
-        SaveManager.SaveLastScene(sceneName);
-        SceneManager.LoadScene(sceneName);
-    }
-
     public void StartNewGame()
     {
         SaveManager.DeleteSave();
         LoadScene("ChoosingScene");
+        SaveManager.ClearKilledEnemies();
     }
 
     public void ContinueGame()
     {
-        if (SaveManager.HasSave())
+        if (SaveManager.SaveExists())
         {
-            LoadScene(SaveManager.GetLastScene());
+            GameData data = SaveManager.LoadGame();
+            LoadScene(data.sceneName);
         }
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SaveManager.SaveLastScene(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()

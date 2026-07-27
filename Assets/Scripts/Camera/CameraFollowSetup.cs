@@ -3,21 +3,28 @@ using UnityEngine;
 
 public class CameraFollowSetup : MonoBehaviour
 {
-    public CinemachineCamera virtualCamera;
+    private CinemachineCamera vcam;
 
     void Start()
     {
-        // Ищем игрока по тегу "Player"
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        vcam = GetComponent<CinemachineCamera>();
+        // Подписываемся на поиск игрока
+        Invoke(nameof(FindPlayer), 0.1f);
+    }
 
-        if (player != null && virtualCamera != null)
+    void FindPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            virtualCamera.Follow = player.transform;
-            virtualCamera.LookAt = player.transform;
+            vcam.Follow = player.transform;
+            vcam.LookAt = player.transform;
+            Debug.Log("Камера привязана к игроку!");
         }
         else
         {
-            Debug.LogWarning("Камера не найдена или игрок не имеет тега Player!");
+            // Если игрок ещё не создан — пробуем снова через 0.2 секунды
+            Invoke(nameof(FindPlayer), 0.2f);
         }
     }
 }

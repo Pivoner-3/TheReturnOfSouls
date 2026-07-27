@@ -65,6 +65,6 @@ public class CharacterSelection : MonoBehaviour
 
     public void OnBack()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
