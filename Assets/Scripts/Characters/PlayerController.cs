@@ -15,7 +15,11 @@ public class PlayerController : BaseCharacter
         isBlocking = true;
         Debug.Log("Блок ВКЛЮЧЁН");
     }
-
+    public void Heal(int amount)
+    {
+        CurrentHealth = Mathf.Min(CurrentHealth + amount, stats.maxHealth);
+        Debug.Log($"Вылечен на {amount}. Текущее HP: {CurrentHealth}");
+    }
     public void DisableBlock()
     {
         isBlocking = false;
