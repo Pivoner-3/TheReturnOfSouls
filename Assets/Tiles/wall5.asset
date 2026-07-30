@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b08ceb78e3b2495b8d808a5860e66794, type: 3}
-  m_Name: wall2
+  m_Name: wall5
   m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AutoTile
-  m_DefaultSprite: {fileID: 808738216964961417, guid: ec072273bd30a38429cd462e557e19c1,
+  m_DefaultSprite: {fileID: 2577950993837180503, guid: 277683d8fc48a504bb73d4fb6f0395a2,
     type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
