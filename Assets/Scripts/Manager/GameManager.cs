@@ -21,8 +21,10 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         SaveManager.DeleteSave();
-        LoadScene("ChoosingScene");
+        PlayerPrefs.DeleteKey("Inventory");
+        SaveManager.ClearCollectedItems();
         SaveManager.ClearKilledEnemies();
+        LoadScene("ChoosingScene");
     }
 
     public void ContinueGame()

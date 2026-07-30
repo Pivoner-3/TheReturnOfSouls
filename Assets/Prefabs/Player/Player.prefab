@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3375750245396752049}
   m_Layer: 0
   m_Name: SwordHitbox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,6 +265,8 @@ MonoBehaviour:
     speed: 5
     attackPower: 1
     attackCooldown: 0.5
+  isDead: 0
+  isBlocking: 0
 --- !u!95 &3276350594761887962
 Animator:
   serializedVersion: 7

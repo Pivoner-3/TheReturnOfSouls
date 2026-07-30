@@ -18,6 +18,7 @@ public class PlayerController : BaseCharacter
     public void Heal(int amount)
     {
         CurrentHealth = Mathf.Min(CurrentHealth + amount, stats.maxHealth);
+        FlashGreen();
         Debug.Log($"Вылечен на {amount}. Текущее HP: {CurrentHealth}");
     }
     public void DisableBlock()
@@ -70,17 +71,34 @@ public class PlayerController : BaseCharacter
             Debug.Log("Урон заблокирован!");
             return;
         }
+        FlashRed();
         base.TakeDamage(amount);
     }
 
     public void SavePlayer()
     {
         GameData data = new GameData();
+
         data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         data.playerX = transform.position.x;
         data.playerY = transform.position.y;
         data.playerHealth = CurrentHealth;
         data.selectedHero = SaveManager.GetSelectedHero();
+
+        // ===== СОХРАНЯЕМ УБИТЫХ МОНСТРОВ =====
+        data.killedEnemies = new bool[0]; // или свой список
+
+        // ===== СОХРАНЯЕМ ИНВЕНТАРЬ =====
+        if (InventoryManager.Instance != null)
+        {
+            string[] itemNames = new string[InventoryManager.Instance.items.Count];
+            for (int i = 0; i < InventoryManager.Instance.items.Count; i++)
+            {
+                itemNames[i] = InventoryManager.Instance.items[i].itemName;
+            }
+            SaveManager.SaveInventory(itemNames);
+        }
+
         data.freedFriends = new bool[4];
         data.foundArtifacts = new int[0];
         data.playTime = Time.time;
@@ -91,7 +109,7 @@ public class PlayerController : BaseCharacter
         data.endurance = 5;
 
         SaveManager.SaveGame(data);
-        Debug.Log($"Игрок сохранён: HP={CurrentHealth}, позиция ({data.playerX}, {data.playerY})");
+        Debug.Log("Игрок сохранён!");
     }
 
     public void LoadPlayer(GameData data)
@@ -101,6 +119,19 @@ public class PlayerController : BaseCharacter
         pos.y = data.playerY;
         transform.position = pos;
         CurrentHealth = data.playerHealth;
+
+        if (data.inventoryItems != null && InventoryManager.Instance != null)
+        {
+            foreach (string itemName in data.inventoryItems)
+            {
+                // Нужно найти ItemData по имени
+                ItemData item = Resources.Load<ItemData>($"Items/{itemName}");
+                if (item != null)
+                    InventoryManager.Instance.items.Add(item);
+            }
+            InventoryManager.Instance.RefreshUI();
+        }
+
         Debug.Log($"Игрок загружен: HP={CurrentHealth}, позиция ({pos.x}, {pos.y})");
     }
 
@@ -113,7 +144,37 @@ public class PlayerController : BaseCharacter
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
     }
+    // ===== ВСПЫШКА ПРИ УРОНЕ =====
+    public void FlashRed()
+    {
+        StartCoroutine(FlashRedCoroutine());
+    }
 
+    private System.Collections.IEnumerator FlashRedCoroutine()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null) yield break;
+
+        sr.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        sr.color = Color.white;
+    }
+
+    // ===== ВСПЫШКА ПРИ ЛЕЧЕНИИ =====
+    public void FlashGreen()
+    {
+        StartCoroutine(FlashGreenCoroutine());
+    }
+
+    private System.Collections.IEnumerator FlashGreenCoroutine()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null) yield break;
+
+        sr.color = Color.green;
+        yield return new WaitForSeconds(0.15f);
+        sr.color = Color.white;
+    }
     private void RespawnFromSave()
     {
         if (this == null) return;

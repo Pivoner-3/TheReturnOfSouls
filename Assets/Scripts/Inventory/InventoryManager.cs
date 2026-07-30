@@ -12,9 +12,36 @@ public class InventoryManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         if (inventoryPanel != null)
             inventoryPanel.SetActive(false);
+    }
+
+    void Start()
+    {
+        // Загружаем инвентарь из сохранения
+        string[] savedItems = SaveManager.LoadInventory();
+        if (savedItems.Length > 0)
+        {
+            items.Clear();
+            foreach (string itemName in savedItems)
+            {
+                ItemData foundItem = FindItemByName(itemName);
+                if (foundItem != null)
+                    items.Add(foundItem);
+            }
+            RefreshUI();
+            Debug.Log($"Инвентарь загружен: {items.Count} предметов");
+        }
     }
 
     void Update()
@@ -47,10 +74,11 @@ public class InventoryManager : MonoBehaviour
         {
             items.Remove(item);
             RefreshUI();
+            Debug.Log($"Предмет {item.itemName} удалён из инвентаря");
         }
     }
 
-    void RefreshUI()
+    public void RefreshUI()
     {
         if (inventoryPanel == null || slotPrefab == null) return;
 
@@ -66,5 +94,16 @@ public class InventoryManager : MonoBehaviour
             if (slotScript != null)
                 slotScript.AddItem(item);
         }
+    }
+
+    private ItemData FindItemByName(string name)
+    {
+        ItemData[] allItems = Resources.LoadAll<ItemData>("Items");
+        foreach (var item in allItems)
+        {
+            if (item.itemName == name)
+                return item;
+        }
+        return null;
     }
 }

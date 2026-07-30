@@ -1,18 +1,25 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PickupItem : MonoBehaviour
+public class PickupItem : Interactable
 {
     public ItemData itemData;
 
-    void OnTriggerEnter2D(Collider2D other)
+    new void Start()
     {
-        if (other.CompareTag("Player"))
+        if (SaveManager.GetCollectedItems().Contains(itemData.itemName))
         {
-            if (InventoryManager.Instance != null)
-            {
-                InventoryManager.Instance.AddItem(itemData);
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
+        }
+    }
+
+    public override void Interact()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.AddItem(itemData);
+            SaveManager.AddCollectedItem(itemData.itemName);
+            promptUI?.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

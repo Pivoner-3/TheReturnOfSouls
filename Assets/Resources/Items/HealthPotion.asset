@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ae4d21978f0ee4e82bd433964bba9c, type: 3}
   m_Name: HealthPotion
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 
-  icon: {fileID: 0}
+  itemName: "\u0417\u0435\u043B\u044C\u0435"
+  icon: {fileID: -1488306459812375167, guid: 5ccddb86011319845a50640a3e55e6e0, type: 3}
   description: 
-  isConsumable: 0
-  healAmount: 0
+  isConsumable: 1
+  healAmount: 3

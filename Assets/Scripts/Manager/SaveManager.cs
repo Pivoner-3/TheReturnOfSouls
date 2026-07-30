@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+Ôªøusing System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -8,15 +8,15 @@ public static class SaveManager
     private const string SELECTED_HERO = "SelectedHero";
     private const string LAST_SCENE = "LastScene";
 
-    // ===== —Œ’–¿Õ≈Õ»≈ =====
+    // ===== –°–û–•–†–ê–ù–ï–ù–ò–ï =====
     public static void SaveGame(GameData data)
     {
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"»„‡ ÒÓı‡ÌÂÌ‡: {SavePath}");
+        Debug.Log($"–ò–≥—Ä–∞ —Å–æ—Ö—Ä–∞–Ω–µ–Ω–∞: {SavePath}");
     }
 
-    // ===== «¿√–”« ¿ =====
+    // ===== –ó–ê–ì–†–£–ó–ö–ê =====
     public static GameData LoadGame()
     {
         if (!SaveExists()) return null;
@@ -24,16 +24,18 @@ public static class SaveManager
         return JsonUtility.FromJson<GameData>(json);
     }
 
-    // ===== œ–Œ¬≈– ¿ =====
+    // ===== –ü–†–û–í–ï–†–ö–ê =====
     public static bool SaveExists() => File.Exists(SavePath);
 
-    // ===== ”ƒ¿À≈Õ»≈ =====
+    // ===== –£–î–ê–õ–ï–ù–ò–ï =====
     public static void DeleteSave()
     {
         if (SaveExists()) File.Delete(SavePath);
+        PlayerPrefs.DeleteKey("Inventory");
+        PlayerPrefs.DeleteKey("KilledEnemies");
     }
 
-    // ===== ¬€¡Œ– √≈–Œﬂ =====
+    // ===== –í–´–ë–û–† –ì–ï–†–û–Ø =====
     public static void SaveSelectedHero(int index)
     {
         PlayerPrefs.SetInt(SELECTED_HERO, index);
@@ -45,7 +47,7 @@ public static class SaveManager
         return PlayerPrefs.GetInt(SELECTED_HERO, 0);
     }
 
-    // ===== œŒ—À≈ƒÕﬂﬂ —÷≈Õ¿ =====
+    // ===== –ü–û–°–õ–ï–î–ù–Ø–Ø –°–¶–ï–ù–ê =====
     public static void SaveLastScene(string sceneName)
     {
         PlayerPrefs.SetString(LAST_SCENE, sceneName);
@@ -56,22 +58,73 @@ public static class SaveManager
     {
         return PlayerPrefs.GetString(LAST_SCENE, "HallwayScene");
     }
+
+    // ===== –°–û–•–†–ê–ù–ï–ù–ò–ï –ò–ù–í–ï–ù–¢–ê–†–Ø (–ù–û–í–û–ï) =====
+    public static void SaveInventory(string[] itemNames)
+    {
+        string inventoryString = string.Join(",", itemNames);
+        PlayerPrefs.SetString("Inventory", inventoryString);
+        PlayerPrefs.Save();
+    }
+
+    public static string[] LoadInventory()
+    {
+        string data = PlayerPrefs.GetString("Inventory", "");
+        if (string.IsNullOrEmpty(data)) return new string[0];
+        return data.Split(',');
+    }
+    // ===== –£–ë–ò–¢–´–ï –ú–û–ù–°–¢–†–´ (–í–û–ó–í–†–ê–©–ï–ù–´) =====
     public static void AddKilledEnemy(string enemyId)
     {
         List<string> killed = GetKilledEnemies();
         if (!killed.Contains(enemyId)) killed.Add(enemyId);
         PlayerPrefs.SetString("KilledEnemies", string.Join(",", killed));
+        PlayerPrefs.Save();
     }
+
     public static void ClearKilledEnemies()
     {
         PlayerPrefs.DeleteKey("KilledEnemies");
         PlayerPrefs.Save();
     }
+
     public static List<string> GetKilledEnemies()
     {
         string data = PlayerPrefs.GetString("KilledEnemies", "");
         if (string.IsNullOrEmpty(data)) return new List<string>();
         return new List<string>(data.Split(','));
+    }
+
+    public static void AddCollectedItem(string itemName)
+    {
+        List<string> collected = GetCollectedItems();
+        if (!collected.Contains(itemName)) collected.Add(itemName);
+        PlayerPrefs.SetString("CollectedItems", string.Join(",", collected));
+        PlayerPrefs.Save();
+    }
+
+    public static void RemoveCollectedItem(string itemName)
+    {
+        List<string> collected = GetCollectedItems();
+        if (collected.Contains(itemName))
+        {
+            collected.Remove(itemName);
+            PlayerPrefs.SetString("CollectedItems", string.Join(",", collected));
+            PlayerPrefs.Save();
+        }
+    }
+
+    public static List<string> GetCollectedItems()
+    {
+        string data = PlayerPrefs.GetString("CollectedItems", "");
+        if (string.IsNullOrEmpty(data)) return new List<string>();
+        return new List<string>(data.Split(','));
+    }
+
+    public static void ClearCollectedItems()
+    {
+        PlayerPrefs.DeleteKey("CollectedItems");
+        PlayerPrefs.Save();
     }
 }
 
@@ -86,6 +139,8 @@ public class GameData
     public bool[] freedFriends;
     public int[] foundArtifacts;
     public bool[] killedEnemies;
+    public string[] inventoryItems;
+    public string[] collectedItems;
     public float playTime;
     public int level;
     public int strength;
