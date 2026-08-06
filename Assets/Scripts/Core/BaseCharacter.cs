@@ -41,12 +41,10 @@ public abstract class BaseCharacter : MonoBehaviour, IDamageable
 
         this.enabled = false;
     }
-
-    // ===== ВОСКРЕШЕНИЕ С ВОССТАНОВЛЕНИЕМ ЗДОРОВЬЯ ИЗ СОХРАНЕНИЯ =====
     public virtual void Revive(int healthFromSave)
     {
         isDead = false;
-        CurrentHealth = healthFromSave; // ← здоровье из сохранения
+        CurrentHealth = healthFromSave;
 
         this.enabled = true;
 

@@ -2,8 +2,38 @@
 
 public class PlayerController : BaseCharacter
 {
+    private float originalSpeed;
+    private Coroutine slowCoroutine;
     public bool isBlocking = false;
     private SpriteRenderer spriteRenderer;
+
+    void Start()
+    {
+        originalSpeed = stats.speed;
+    }
+
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        // Если уже замедлен — сбрасываем
+        if (slowCoroutine != null)
+            StopCoroutine(slowCoroutine);
+
+        // Применяем замедление
+        stats.speed = originalSpeed * (1f - slowAmount);
+        Debug.Log($"Игрок замедлен! Скорость: {stats.speed}");
+
+        // Запускаем восстановление через время
+        slowCoroutine = StartCoroutine(RemoveSlowAfter(duration));
+
+    }
+
+    private System.Collections.IEnumerator RemoveSlowAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        stats.speed = originalSpeed;
+        Debug.Log($"Скорость восстановлена: {stats.speed}");
+        slowCoroutine = null;
+    }
 
     protected override void Awake()
     {
@@ -20,6 +50,9 @@ public class PlayerController : BaseCharacter
         CurrentHealth = Mathf.Min(CurrentHealth + amount, stats.maxHealth);
         FlashGreen();
         Debug.Log($"Вылечен на {amount}. Текущее HP: {CurrentHealth}");
+
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.UpdateHealthUI();
     }
     public void DisableBlock()
     {
@@ -73,8 +106,10 @@ public class PlayerController : BaseCharacter
         }
         FlashRed();
         base.TakeDamage(amount);
-    }
 
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.UpdateHealthUI();
+    }
     public void SavePlayer()
     {
         GameData data = new GameData();
@@ -85,10 +120,8 @@ public class PlayerController : BaseCharacter
         data.playerHealth = CurrentHealth;
         data.selectedHero = SaveManager.GetSelectedHero();
 
-        // ===== СОХРАНЯЕМ УБИТЫХ МОНСТРОВ =====
-        data.killedEnemies = new bool[0]; // или свой список
+        data.killedEnemies = new bool[0];
 
-        // ===== СОХРАНЯЕМ ИНВЕНТАРЬ =====
         if (InventoryManager.Instance != null)
         {
             string[] itemNames = new string[InventoryManager.Instance.items.Count];
@@ -124,7 +157,6 @@ public class PlayerController : BaseCharacter
         {
             foreach (string itemName in data.inventoryItems)
             {
-                // Нужно найти ItemData по имени
                 ItemData item = Resources.Load<ItemData>($"Items/{itemName}");
                 if (item != null)
                     InventoryManager.Instance.items.Add(item);
@@ -144,7 +176,6 @@ public class PlayerController : BaseCharacter
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
     }
-    // ===== ВСПЫШКА ПРИ УРОНЕ =====
     public void FlashRed()
     {
         StartCoroutine(FlashRedCoroutine());
@@ -160,7 +191,6 @@ public class PlayerController : BaseCharacter
         sr.color = Color.white;
     }
 
-    // ===== ВСПЫШКА ПРИ ЛЕЧЕНИИ =====
     public void FlashGreen()
     {
         StartCoroutine(FlashGreenCoroutine());
@@ -174,27 +204,5 @@ public class PlayerController : BaseCharacter
         sr.color = Color.green;
         yield return new WaitForSeconds(0.15f);
         sr.color = Color.white;
-    }
-    private void RespawnFromSave()
-    {
-        if (this == null) return;
-        if (!isDead) return;
-
-        if (SaveManager.SaveExists())
-        {
-            GameData data = SaveManager.LoadGame();
-
-            // Восстанавливаем позицию
-            LoadPlayer(data);
-
-            // ВОСКРЕШАЕМ с сохранённым здоровьем
-            Revive(data.playerHealth);
-
-            Debug.Log($"Игрок воскрес с HP={data.playerHealth}");
-        }
-        else
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
-        }
     }
 }

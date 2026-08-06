@@ -36,13 +36,11 @@ public class UIHealthBar : MonoBehaviour
         int max = player.stats.maxHealth;
         targetFill = (float)current / max;
 
-        // 1. Плавное обновление полоски
         if (healthFill != null)
         {
             healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetFill, Time.deltaTime * smoothSpeed);
         }
 
-        // 2. Цвет полоски в зависимости от здоровья
         if (healthFill != null)
         {
             if (targetFill > 0.6f)
@@ -53,7 +51,6 @@ public class UIHealthBar : MonoBehaviour
                 healthFill.color = criticalColor;
         }
 
-        // 3. Текст
         if (healthText != null)
         {
             healthText.text = $"{current} / {max}";

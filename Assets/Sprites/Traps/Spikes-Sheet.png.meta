@@ -1,0 +1,339 @@
+fileFormatVersion: 2
+guid: bd138257305bc2740aa04b357045307b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3337847229795779588
+    second: Spikes-Sheet_0
+  - first:
+      213: -8267202868168639649
+    second: Spikes-Sheet_1
+  - first:
+      213: -1470146944594061240
+    second: Spikes-Sheet_2
+  - first:
+      213: -8808543993109582328
+    second: Spikes-Sheet_3
+  - first:
+      213: -1170477326932450417
+    second: Spikes-Sheet_4
+  - first:
+      213: -9128814044771192762
+    second: Spikes-Sheet_5
+  - first:
+      213: -6999930010265753670
+    second: Spikes-Sheet_6
+  - first:
+      213: -7467782025174235484
+    second: Spikes-Sheet_7
+  - first:
+      213: -333994666673758201
+    second: Spikes-Sheet_8
+  - first:
+      213: -1653112847141188941
+    second: Spikes-Sheet_9
+  - first:
+      213: 580404584770692825
+    second: Spikes-Sheet_10
+  - first:
+      213: 4381393187310895720
+    second: Spikes-Sheet_11
+  - first:
+      213: -2007023473017675267
+    second: Spikes-Sheet_12
+  - first:
+      213: -5066860800508632100
+    second: Spikes-Sheet_13
+  - first:
+      213: 5872242577274433392
+    second: Spikes-Sheet_14
+  - first:
+      213: -3489708200993952365
+    second: Spikes-Sheet_15
+  - first:
+      213: 5198719098016004848
+    second: Spikes-Sheet_16
+  - first:
+      213: 4942903036693846205
+    second: Spikes-Sheet_17
+  - first:
+      213: -5819230171437653823
+    second: Spikes-Sheet_18
+  - first:
+      213: -8552904111923947149
+    second: Spikes-Sheet_19
+  - first:
+      213: 2103552438815496905
+    second: Spikes-Sheet_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spikes-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfb308111a59da1d0800000000000000
+      internalID: -3337847229795779588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spikes-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 2
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80e6d4e68e3c1c580800000000000000
+      internalID: -8808543993109582328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spikes-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 2
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab7638d2eb04bde90800000000000000
+      internalID: -6999930010265753670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spikes-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 2
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a6417960db1d5890800000000000000
+      internalID: -7467782025174235484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spikes-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 2
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ca110a4cc1513d10800000000000000
+      internalID: 2103552438815496905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: feff885dc847b7b408e7e86635f7bd75
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Spikes-Sheet_0: -3337847229795779588
+      Spikes-Sheet_1: -8267202868168639649
+      Spikes-Sheet_10: 580404584770692825
+      Spikes-Sheet_11: 4381393187310895720
+      Spikes-Sheet_12: -2007023473017675267
+      Spikes-Sheet_13: -5066860800508632100
+      Spikes-Sheet_14: 5872242577274433392
+      Spikes-Sheet_15: -3489708200993952365
+      Spikes-Sheet_16: 5198719098016004848
+      Spikes-Sheet_17: 4942903036693846205
+      Spikes-Sheet_18: -5819230171437653823
+      Spikes-Sheet_19: -8552904111923947149
+      Spikes-Sheet_2: -1470146944594061240
+      Spikes-Sheet_20: 2103552438815496905
+      Spikes-Sheet_3: -8808543993109582328
+      Spikes-Sheet_4: -1170477326932450417
+      Spikes-Sheet_5: -9128814044771192762
+      Spikes-Sheet_6: -6999930010265753670
+      Spikes-Sheet_7: -7467782025174235484
+      Spikes-Sheet_8: -333994666673758201
+      Spikes-Sheet_9: -1653112847141188941
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
