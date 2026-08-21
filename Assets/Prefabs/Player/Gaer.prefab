@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6448931062500929202}
   - component: {fileID: 5829138829459757013}
   - component: {fileID: 4366374938413662144}
+  - component: {fileID: 5190965319568526892}
   m_Layer: 0
   m_Name: Gaer
   m_TagString: Player
@@ -179,4 +180,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefbf8dd47f605b489663d9cb8ec2073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 5
+  stats:
+    maxHealth: 5
+    speed: 5
+    attackPower: 1
+    attackCooldown: 0.5
+  isDead: 0
+  isBlocking: 0
+--- !u!95 &5190965319568526892
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750675821322812191}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 682f61e79b75c69478a56fb107b08564, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
