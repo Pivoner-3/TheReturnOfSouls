@@ -1754,7 +1754,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1264432007}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnCloseSettings
+        m_MethodName: CloseSettingsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2666,7 +2666,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1264432007}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnCloseAchievements
+        m_MethodName: CloseAchievementsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

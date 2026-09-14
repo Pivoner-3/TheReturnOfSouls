@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,17 +11,19 @@ public class InventoryManager : MonoBehaviour
     public GameObject slotPrefab;
     public int maxSlots = 8;
 
-    public Image healthBarFill;      // HUD-полоска здоровья
-    public Text healthText;          // HUD-текст здоровья
+    // Р—РґРѕСЂРѕРІСЊРµ
+    public Image healthBarFill;
+    public Text healthText;
+    public Image healthBarFill_Inventory;
+    public Text healthText_Inventory;
 
-    public Image healthBarFill_Inventory;   // полоска в инвентаре
-    public Text healthText_Inventory;       // текст в инвентаре
-
+    // РЎС‚Р°С‚С‹
     public Image strengthBarFill;
     public Text strengthText;
     public Image agilityBarFill;
     public Text agilityText;
 
+    // HUD
     public GameObject hudPanel;
 
     void Awake()
@@ -42,82 +44,44 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-        string[] savedItems = SaveManager.LoadInventory();
-        if (savedItems.Length > 0)
-        {
-            items.Clear();
-            foreach (string itemName in savedItems)
-            {
-                ItemData foundItem = FindItemByName(itemName);
-                if (foundItem != null)
-                    items.Add(foundItem);
-            }
-            RefreshUI();
-            Debug.Log($"Инвентарь загружен: {items.Count} предметов");
-        }
+        LoadInventory();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (inventoryPanel != null)
-            {
-                bool isOpen = !inventoryPanel.activeSelf;
-                inventoryPanel.SetActive(isOpen);
-
-                if (isOpen)
-                {
-                    OpenInventory();
-                }
-                else
-                {
-                    CloseInventory();
-                }
-            }
-        }
-
-        if (inventoryPanel != null && inventoryPanel.activeSelf)
-        {
-            UpdateStatsUI();
+            bool isOpen = !inventoryPanel.activeSelf;
+            inventoryPanel.SetActive(isOpen);
+            if (isOpen) OpenInventory();
+            else CloseInventory();
         }
     }
 
     public void OpenInventory()
     {
-        inventoryPanel.SetActive(true);
         RefreshUI();
         UpdateHealthUI();
-        UpdateStatsUI();
-
-        Transform heroPanel = inventoryPanel.transform.Find("HeroPanel");
-        if (heroPanel != null && !heroPanel.gameObject.activeSelf)
-        {
-            heroPanel.gameObject.SetActive(true);
-            Debug.Log("HeroPanel принудительно активирован");
-        }
-
-        if (hudPanel != null)
-            hudPanel.SetActive(false);
+        if (hudPanel != null) hudPanel.SetActive(false);
     }
 
     public void CloseInventory()
     {
         inventoryPanel.SetActive(false);
-        if (hudPanel != null)
-            hudPanel.SetActive(true);
+        if (hudPanel != null) hudPanel.SetActive(true);
     }
 
     public void AddItem(ItemData item)
     {
         if (items.Count >= maxSlots)
         {
-            Debug.Log("Инвентарь полон!");
+            Debug.Log("РРЅРІРµРЅС‚Р°СЂСЊ РїРѕР»РѕРЅ!");
             return;
         }
         items.Add(item);
         RefreshUI();
-        Debug.Log($"Подобран предмет: {item.itemName}");
+        SaveInventory();
+        Debug.Log($"вњ… Р”РѕР±Р°РІР»РµРЅ РїСЂРµРґРјРµС‚: {item.itemName}");
     }
 
     public void RemoveItem(ItemData item)
@@ -126,7 +90,8 @@ public class InventoryManager : MonoBehaviour
         {
             items.Remove(item);
             RefreshUI();
-            Debug.Log($"Предмет {item.itemName} удалён из инвентаря");
+            SaveInventory();
+            Debug.Log($"вќЊ РЈРґР°Р»С‘РЅ РїСЂРµРґРјРµС‚: {item.itemName}");
         }
     }
 
@@ -134,14 +99,11 @@ public class InventoryManager : MonoBehaviour
     {
         if (inventoryPanel == null || slotPrefab == null) return;
 
-        // Удаляем только слоты (а не всю панель)
         Transform slotGrid = inventoryPanel.transform.Find("SlotGridContainer");
         if (slotGrid == null) return;
 
         foreach (Transform child in slotGrid)
-        {
             Destroy(child.gameObject);
-        }
 
         foreach (var item in items)
         {
@@ -155,56 +117,69 @@ public class InventoryManager : MonoBehaviour
     public void UpdateHealthUI()
     {
         PlayerController player = FindFirstObjectByType<PlayerController>();
-        if (player == null)
-        {
-            Debug.LogWarning("PlayerController не найден!");
-            return;
-        }
+        if (player == null) return;
 
         int current = player.CurrentHealth;
         int max = player.stats.maxHealth;
         float fill = (float)current / max;
 
-        // HUD
-        if (healthBarFill != null)
-            healthBarFill.fillAmount = fill;
-        if (healthText != null)
-            healthText.text = $"{current} / {max}";
-
-        // Инвентарь
-        if (healthBarFill_Inventory != null)
-        {
-            healthBarFill_Inventory.fillAmount = fill;
-            Debug.Log($"Инвентарь: fill = {healthBarFill_Inventory.fillAmount}");
-        }
-        if (healthText_Inventory != null)
-        {
-            healthText_Inventory.text = $"{current} / {max}";
-            Debug.Log($"Инвентарь: текст = {healthText_Inventory.text}");
-        }
+        if (healthBarFill != null) healthBarFill.fillAmount = fill;
+        if (healthText != null) healthText.text = $"{current} / {max}";
+        if (healthBarFill_Inventory != null) healthBarFill_Inventory.fillAmount = fill;
+        if (healthText_Inventory != null) healthText_Inventory.text = $"{current} / {max}";
     }
 
     public void UpdateStatsUI()
     {
-        if (strengthBarFill != null)
-            strengthBarFill.fillAmount = 0.8f;
-        if (strengthText != null)
-            strengthText.text = "8";
-
-        if (agilityBarFill != null)
-            agilityBarFill.fillAmount = 0.6f;
-        if (agilityText != null)
-            agilityText.text = "6";
+        if (strengthBarFill != null) strengthBarFill.fillAmount = 0.8f;
+        if (strengthText != null) strengthText.text = "8";
+        if (agilityBarFill != null) agilityBarFill.fillAmount = 0.6f;
+        if (agilityText != null) agilityText.text = "6";
     }
 
-    private ItemData FindItemByName(string name)
+    // ===== РЎРћРҐР РђРќР•РќРР• =====
+    public void SaveInventory()
     {
-        ItemData[] allItems = Resources.LoadAll<ItemData>("Items");
-        foreach (var item in allItems)
+        List<string> itemNames = new List<string>();
+        foreach (var item in items)
         {
-            if (item.itemName == name)
-                return item;
+            itemNames.Add(item.itemName);
         }
-        return null;
+
+        string inventoryString = string.Join(",", itemNames);
+        PlayerPrefs.SetString("Inventory", inventoryString);
+        PlayerPrefs.Save();
+        Debug.Log($"рџ’ѕ РРЅРІРµРЅС‚Р°СЂСЊ СЃРѕС…СЂР°РЅС‘РЅ: {inventoryString} (РїСЂРµРґРјРµС‚РѕРІ: {items.Count})");
+    }
+
+    private void LoadInventory()
+    {
+        string data = PlayerPrefs.GetString("Inventory", "");
+        Debug.Log($"рџ“‚ Р—Р°РіСЂСѓР¶Р°РµРј РёРЅРІРµРЅС‚Р°СЂСЊ: data = '{data}'");
+
+        if (string.IsNullOrEmpty(data))
+        {
+            Debug.Log("рџ“‚ РРЅРІРµРЅС‚Р°СЂСЊ РїСѓСЃС‚ (РЅРµС‚ СЃРѕС…СЂР°РЅРµРЅРёСЏ)");
+            return;
+        }
+
+        string[] names = data.Split(',');
+        items.Clear();
+        foreach (string name in names)
+        {
+            Debug.Log($"рџ”Ќ РС‰РµРј ItemData: Items/{name}");
+            ItemData item = Resources.Load<ItemData>("Items/" + name);
+            if (item != null)
+            {
+                items.Add(item);
+                Debug.Log($"вњ… Р—Р°РіСЂСѓР¶РµРЅ РїСЂРµРґРјРµС‚: {name}");
+            }
+            else
+            {
+                Debug.LogWarning($"вќЊ РќРµ РЅР°Р№РґРµРЅ ItemData: Items/{name}");
+            }
+        }
+        RefreshUI();
+        Debug.Log($"рџ“‚ РРЅРІРµРЅС‚Р°СЂСЊ Р·Р°РіСЂСѓР¶РµРЅ: {items.Count} РїСЂРµРґРјРµС‚РѕРІ");
     }
 }

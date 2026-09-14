@@ -4,13 +4,26 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
     public Image icon;
-    public ItemData item;
     public Button useButton;
     public Button dropButton;
 
+    private ItemData itemData;
+
     public void AddItem(ItemData newItem)
     {
-        item = newItem;
+        if (newItem == null)
+        {
+            Debug.LogWarning("❌ newItem == null!");
+            return;
+        }
+
+        if (icon == null)
+        {
+            Debug.LogWarning("❌ icon == null! Проверь привязку в префабе InventorySlot.");
+            return;
+        }
+
+        itemData = newItem;
         icon.sprite = newItem.icon;
         icon.gameObject.SetActive(true);
 
@@ -23,73 +36,79 @@ public class InventorySlot : MonoBehaviour
 
     public void ClearSlot()
     {
-        item = null;
+        itemData = null;
         icon.sprite = null;
         icon.gameObject.SetActive(false);
-        useButton.onClick.RemoveAllListeners();
-        dropButton.onClick.RemoveAllListeners();
     }
 
     public void UseItem()
     {
-        if (item == null) return;
+        if (itemData == null)
+        {
+            Debug.LogError("❌ itemData == null в UseItem()! Слот не содержит данных.");
+            return;
+        }
 
-        if (item.isConsumable && item.healAmount > 0)
+        string itemName = itemData.itemName;
+        int healAmount = itemData.healAmount;
+        bool isConsumable = itemData.isConsumable;
+
+        Debug.Log($"Использование предмета: {itemName}, heal={healAmount}, consumable={isConsumable}");
+        if (isConsumable && healAmount > 0)
         {
             PlayerController player = FindFirstObjectByType<PlayerController>();
-            if (player != null)
+            if (player == null)
             {
-                player.Heal(item.healAmount);
-                InventoryManager.Instance.RemoveItem(item);
-                ClearSlot();
+                Debug.LogWarning("❌ Player не найден!");
+                return;
             }
+
+            // Лечим
+            player.Heal(healAmount);
+            Debug.Log($"Использовано зелье! Восстановлено {healAmount} HP");
+
+            // Удаляем из инвентаря
+            InventoryManager.Instance.RemoveItem(itemData);
+            ClearSlot();
+        }
+        else
+        {
+            Debug.Log($"Предмет {itemName} нельзя использовать (не расходник или heal = 0)");
         }
     }
 
     public void DropItem()
     {
-        if (item == null) return;
+        Debug.Log("1. Начало DropItem");
 
-        ItemData itemToDrop = item;
+        if (itemData == null)
+        {
+            Debug.LogWarning("❌ itemData == null!");
+            return;
+        }
 
-        PlayerController player = FindFirstObjectByType<PlayerController>();
-        if (player == null) return;
+        string itemName = itemData.itemName;
+        Debug.Log($"2. itemData есть: {itemName}");
 
-        // === ГЛАВНОЕ: УДАЛЯЕМ ИЗ COLLECTEDITEMS ===
-        SaveManager.RemoveCollectedItem(itemToDrop.itemName);
+        Spawner spawner = GetComponent<Spawner>();
+        if (spawner == null)
+            spawner = GetComponentInChildren<Spawner>();
 
-        // Удаляем из инвентаря
-        InventoryManager.Instance.RemoveItem(itemToDrop);
+        if (spawner == null)
+        {
+            Debug.LogWarning($"❌ В слоте нет компонента Spawner для {itemName}!");
+            return;
+        }
+
+        Debug.Log("3. Spawner найден, вызываем SpawnDroppedItem()");
+        spawner.SpawnDroppedItem();
+
+        Debug.Log("4. Удаляем из инвентаря");
+        InventoryManager.Instance.RemoveItem(itemData);
+
+        Debug.Log("5. Очищаем слот");
         ClearSlot();
 
-        // Создаём предмет на земле
-        Vector3 dropPosition = player.transform.position + new Vector3(3f, -0.5f, 0f);
-        GameObject droppedObject = new GameObject(itemToDrop.itemName);
-        droppedObject.transform.position = dropPosition;
-
-        SpriteRenderer sr = droppedObject.AddComponent<SpriteRenderer>();
-        sr.sprite = itemToDrop.icon;
-        sr.sortingOrder = 5;
-
-        BoxCollider2D collider = droppedObject.AddComponent<BoxCollider2D>();
-        collider.isTrigger = true;
-        collider.size = new Vector2(1f, 1f);
-
-        Rigidbody2D rb = droppedObject.AddComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Kinematic;
-
-        PickupItem pickup = droppedObject.AddComponent<PickupItem>();
-        pickup.itemData = itemToDrop;
-        pickup.promptUI = GameObject.Find("InteractionPrompt");
-        pickup.enabled = true;
-
-        Debug.Log($"Предмет {itemToDrop.itemName} выброшен на землю!");
-    }
-
-    private System.Collections.IEnumerator EnablePickupAfterDelay(PickupItem pickup)
-    {
-        yield return new WaitForSeconds(0.3f);
-        pickup.enabled = true;
-        Debug.Log("PickupItem снова активен!");
+        Debug.Log($"6. {itemName} выброшен на землю!");
     }
 }

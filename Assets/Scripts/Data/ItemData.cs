@@ -5,7 +5,6 @@ public class ItemData : ScriptableObject
 {
     public string itemName;
     public Sprite icon;
-    public string description;
-    public bool isConsumable;
     public int healAmount;
+    public bool isConsumable;
 }

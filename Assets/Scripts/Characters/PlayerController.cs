@@ -157,7 +157,7 @@ public class PlayerController : BaseCharacter
         {
             foreach (string itemName in data.inventoryItems)
             {
-                ItemData item = Resources.Load<ItemData>($"Items/{itemName}");
+                ItemData item = Resources.Load<ItemData>("Items/" + itemName);
                 if (item != null)
                     InventoryManager.Instance.items.Add(item);
             }
@@ -166,7 +166,6 @@ public class PlayerController : BaseCharacter
 
         Debug.Log($"Игрок загружен: HP={CurrentHealth}, позиция ({pos.x}, {pos.y})");
     }
-
     protected override void Die()
     {
         base.Die(); 

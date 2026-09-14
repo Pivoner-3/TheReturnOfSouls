@@ -1,27 +1,64 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class Chest : Interactable
 {
-    public ItemData itemToGive;
+    [Header("РЎРїСЂР°Р№С‚С‹")]
+    public Sprite closedSprite;
+    public Sprite openSprite;
+
+    [Header("РџСЂРµРґРјРµС‚С‹")]
+    public ItemData[] items;
+
     public bool isOpened = false;
-    public Animator animator;
+
+    private SpriteRenderer spriteRenderer;
+
+    new void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && closedSprite != null)
+            spriteRenderer.sprite = closedSprite;
+    }
 
     public override void Interact()
     {
-        if (isOpened) return;
+        if (isOpened)
+        {
+            ChestUI.Instance.CloseChest();
+            return;
+        }
 
         isOpened = true;
 
-        if (animator != null)
-            animator.SetTrigger("Open");
+        if (spriteRenderer != null && openSprite != null)
+            spriteRenderer.sprite = openSprite;
 
-        if (itemToGive != null && InventoryManager.Instance != null)
-        {
-            InventoryManager.Instance.AddItem(itemToGive);
-            Debug.Log($"Сундук: получен предмет {itemToGive.itemName}");
-        }
-
-        // Если сундук пустой или уже открыт — можно сделать недоступным
+        ChestUI.Instance.OpenChest(items, this);
         promptUI?.SetActive(false);
+
+        Debug.Log($"рџ“¦ РЎСѓРЅРґСѓРє РѕС‚РєСЂС‹С‚! {items.Length} РїСЂРµРґРјРµС‚РѕРІ");
+    }
+
+    public void RemoveItem(ItemData item)
+    {
+        System.Collections.Generic.List<ItemData> list = new System.Collections.Generic.List<ItemData>(items);
+        list.Remove(item);
+        items = list.ToArray();
+    }
+
+    public void AddItem(ItemData item)
+    {
+        System.Collections.Generic.List<ItemData> list = new System.Collections.Generic.List<ItemData>(items);
+        list.Add(item);
+        items = list.ToArray();
+    }
+
+    public void Close()
+    {
+        if (spriteRenderer != null && closedSprite != null)
+            spriteRenderer.sprite = closedSprite;
+
+        isOpened = false;
+        Debug.Log("РЎСѓРЅРґСѓРє Р·Р°РєСЂС‹С‚");
     }
 }

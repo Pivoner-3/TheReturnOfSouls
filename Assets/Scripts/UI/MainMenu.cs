@@ -24,25 +24,20 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        // Кнопка "Продолжить" активна только если есть сохранение
         continueButton.interactable = SaveManager.SaveExists();
 
-        // Подписка кнопок
         newGameButton.onClick.AddListener(() => GameManager.Instance.StartNewGame());
         continueButton.onClick.AddListener(() => GameManager.Instance.ContinueGame());
         settingsButton.onClick.AddListener(OpenSettings);
         achievementsButton.onClick.AddListener(OpenAchievements);
         quitButton.onClick.AddListener(() => GameManager.Instance.QuitGame());
 
-        // Скрываем панели при старте
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (achievementsPanel != null) achievementsPanel.SetActive(false);
 
-        // Загружаем настройки
         LoadSettings();
     }
 
-    // ===== ОТКРЫТИЕ/ЗАКРЫТИЕ ПАНЕЛЕЙ =====
     public void OpenSettings()
     {
         if (settingsPanel != null) settingsPanel.SetActive(true);
@@ -67,7 +62,6 @@ public class MainMenu : MonoBehaviour
         if (achievementsPanel != null) achievementsPanel.SetActive(false);
     }
 
-    // ===== НАСТРОЙКИ ЗВУКА =====
     public void OnMasterVolumeChanged(float value)
     {
         AudioListener.volume = value;
@@ -93,13 +87,11 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    // ===== НАСТРОЙКИ ЭКРАНА =====
     public void OnFullscreenToggle(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
 
-    // ===== СОХРАНЕНИЕ НАСТРОЕК =====
     private void LoadSettings()
     {
         if (masterVolumeSlider != null)
@@ -144,7 +136,6 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // ===== МЕТОДЫ ДЛЯ КНОПОК "НАЗАД" =====
     public void CloseSettingsPanel()
     {
         CloseSettings();
