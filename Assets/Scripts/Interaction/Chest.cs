@@ -24,7 +24,7 @@ public class Chest : Interactable
     {
         if (isOpened)
         {
-            ChestUI.Instance.CloseChest();
+            CloseChest();
             return;
         }
 
@@ -36,7 +36,18 @@ public class Chest : Interactable
         ChestUI.Instance.OpenChest(items, this);
         promptUI?.SetActive(false);
 
-        Debug.Log($"📦 Сундук открыт! {items.Length} предметов");
+        Debug.Log($"Сундук открыт! {items.Length} предметов");
+    }
+
+    public void CloseChest()
+    {
+        ChestUI.Instance.CloseChest();
+
+        if (spriteRenderer != null && closedSprite != null)
+            spriteRenderer.sprite = closedSprite;
+
+        isOpened = false;
+        Debug.Log("Сундук закрыт");
     }
 
     public void RemoveItem(ItemData item)

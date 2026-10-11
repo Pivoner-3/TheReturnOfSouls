@@ -11,17 +11,7 @@ public class InventorySlot : MonoBehaviour
 
     public void AddItem(ItemData newItem)
     {
-        if (newItem == null)
-        {
-            Debug.LogWarning("❌ newItem == null!");
-            return;
-        }
-
-        if (icon == null)
-        {
-            Debug.LogWarning("❌ icon == null! Проверь привязку в префабе InventorySlot.");
-            return;
-        }
+        if (newItem == null) return;
 
         itemData = newItem;
         icon.sprite = newItem.icon;
@@ -43,72 +33,84 @@ public class InventorySlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (itemData == null)
+        if (itemData == null) return;
+
+        switch (itemData.itemType)
         {
-            Debug.LogError("❌ itemData == null в UseItem()! Слот не содержит данных.");
-            return;
+            case ItemType.Consumable:
+                UseConsumable();
+                break;
+
+            case ItemType.Weapon:
+                EquipWeapon();
+                break;
+
+            case ItemType.Armor:
+                EquipArmor();
+                break;
+
+            case ItemType.Key:
+                Debug.Log($"Ключ {itemData.itemName} используется у двери/сундука");
+                break;
+
+            case ItemType.Resource:
+                Debug.Log($"{itemData.itemName} — ресурс для крафта");
+                break;
+
+            default:
+                Debug.Log($"Использовать предмет: {itemData.itemName}");
+                break;
         }
+    }
 
-        string itemName = itemData.itemName;
-        int healAmount = itemData.healAmount;
-        bool isConsumable = itemData.isConsumable;
-
-        Debug.Log($"Использование предмета: {itemName}, heal={healAmount}, consumable={isConsumable}");
-        if (isConsumable && healAmount > 0)
+    private void UseConsumable()
+    {
+        if (itemData.isConsumable && itemData.healAmount > 0)
         {
-            PlayerController player = FindFirstObjectByType<PlayerController>();
-            if (player == null)
+            PlayerController player = FindAnyObjectByType<PlayerController>();
+            if (player != null)
             {
-                Debug.LogWarning("❌ Player не найден!");
-                return;
+                player.Heal(itemData.healAmount);
+                InventoryManager.Instance.RemoveItem(itemData);
+                ClearSlot();
+                Debug.Log($"Использовано зелье! +{itemData.healAmount} HP");
             }
-
-            // Лечим
-            player.Heal(healAmount);
-            Debug.Log($"Использовано зелье! Восстановлено {healAmount} HP");
-
-            // Удаляем из инвентаря
-            InventoryManager.Instance.RemoveItem(itemData);
-            ClearSlot();
         }
-        else
+    }
+
+    private void EquipWeapon()
+    {
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
         {
-            Debug.Log($"Предмет {itemName} нельзя использовать (не расходник или heal = 0)");
+            player.EquipWeapon(itemData);
+            Debug.Log($"Экипировано оружие: {itemData.itemName} (+{itemData.damage} урона)");
+        }
+    }
+
+    private void EquipArmor()
+    {
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.EquipArmor(itemData);
+            Debug.Log($"Экипирована броня: {itemData.itemName} (+{itemData.defense} защиты)");
         }
     }
 
     public void DropItem()
     {
-        Debug.Log("1. Начало DropItem");
+        if (itemData == null || itemData.worldPrefab == null) return;
 
-        if (itemData == null)
-        {
-            Debug.LogWarning("❌ itemData == null!");
-            return;
-        }
+        PlayerController player = FindAnyObjectByType<PlayerController>();
+        if (player == null) return;
 
-        string itemName = itemData.itemName;
-        Debug.Log($"2. itemData есть: {itemName}");
+        Vector3 pos = player.transform.position + new Vector3(2f, -0.5f, 0f);
+        GameObject dropped = Instantiate(itemData.worldPrefab, pos, Quaternion.identity);
+        dropped.GetComponent<PickupItem>().itemData = itemData;
 
-        Spawner spawner = GetComponent<Spawner>();
-        if (spawner == null)
-            spawner = GetComponentInChildren<Spawner>();
-
-        if (spawner == null)
-        {
-            Debug.LogWarning($"❌ В слоте нет компонента Spawner для {itemName}!");
-            return;
-        }
-
-        Debug.Log("3. Spawner найден, вызываем SpawnDroppedItem()");
-        spawner.SpawnDroppedItem();
-
-        Debug.Log("4. Удаляем из инвентаря");
         InventoryManager.Instance.RemoveItem(itemData);
-
-        Debug.Log("5. Очищаем слот");
         ClearSlot();
-
-        Debug.Log($"6. {itemName} выброшен на землю!");
+        Debug.Log($"{itemData.itemName} выброшен на землю!");
     }
 }

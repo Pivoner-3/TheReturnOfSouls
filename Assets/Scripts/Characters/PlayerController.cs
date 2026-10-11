@@ -7,6 +7,9 @@ public class PlayerController : BaseCharacter
     public bool isBlocking = false;
     private SpriteRenderer spriteRenderer;
 
+    private ItemData equippedWeapon;
+    private ItemData equippedArmor;
+
     void Start()
     {
         originalSpeed = stats.speed;
@@ -95,6 +98,36 @@ public class PlayerController : BaseCharacter
         if (Input.GetKeyDown(KeyCode.F5))
             SavePlayer();
     }
+
+
+    public void EquipWeapon(ItemData weapon)
+    {
+        equippedWeapon = weapon;
+        Debug.Log($"⚔️ Оружие: {weapon.itemName}, урон: {weapon.damage}");
+    }
+
+    public void EquipArmor(ItemData armor)
+    {
+        equippedArmor = armor;
+        Debug.Log($"🛡️ Броня: {armor.itemName}, защита: {armor.defense}");
+    }
+
+    public int GetDamage()
+    {
+        int baseDamage = 1;
+        if (equippedWeapon != null)
+            baseDamage += equippedWeapon.damage;
+        return baseDamage;
+    }
+
+    public int GetDefense()
+    {
+        int baseDefense = 0;
+        if (equippedArmor != null)
+            baseDefense += equippedArmor.defense;
+        return baseDefense;
+    }
+
 
     public override void TakeDamage(int amount)
     {

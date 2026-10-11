@@ -10,10 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31ae4d21978f0ee4e82bd433964bba9c, type: 3}
-  m_Name: Artifact
+  m_Name: RedSword2
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 
-  icon: {fileID: 0}
-  description: 
-  isConsumable: 0
+  itemName: RedSword2
+  icon: {fileID: 8574939011468829485, guid: e1f74b5942c75e540891088efecccd07, type: 3}
+  worldPrefab: {fileID: 0}
+  itemType: 0
   healAmount: 0
+  isConsumable: 0
+  damage: 0
+  isEquippable: 0
+  defense: 0
+  keyId: 
+  craftAmount: 0

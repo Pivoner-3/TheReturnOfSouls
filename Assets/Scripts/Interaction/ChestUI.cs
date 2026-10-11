@@ -59,11 +59,9 @@ public class ChestUI : MonoBehaviour
 
     public void ReturnItem(ItemData item)
     {
-        // Возвращаем предмет обратно в сундук
         currentChest.AddItem(item);
         chestItems = currentChest.items;
 
-        // Удаляем из инвентаря игрока
         InventoryManager.Instance.RemoveItem(item);
 
         RefreshUI();
@@ -73,7 +71,6 @@ public class ChestUI : MonoBehaviour
     public void CloseChest()
     {
         chestWindow.SetActive(false);
-        currentChest?.Close();
         currentChest = null;
     }
 }
